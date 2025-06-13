@@ -5,6 +5,42 @@
 @endsection
 
 @section('body')
+    <style>
+        .eco-section {
+            background-color: #ffffff;
+            padding: 40px 20px;
+            text-align: center;
+            margin-top: 40px;
+            border-radius: 4px;
+            border: 1px solid #eee;
+        }
+
+        .eco-icon {
+            background-color: #519d32;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 10px;
+            transition: all 0.3s ease;
+            min-height: 140px;
+        }
+
+        .eco-icon h5 {
+            margin-top: 15px;
+            font-size: 16px;
+            color: #fff;
+        }
+
+        .eco-icon img {
+            width: 70px;
+            height: 70px;
+            filter: brightness(0) invert(1);
+        }
+
+        .faded {
+            opacity: 0.4;
+        }
+    </style>
     <section class="item-details section">
         <div class="container">
             <div class="top-area">
@@ -43,19 +79,22 @@
                                 <i class="lni lni-tag"></i>Unit: {{ $product->unit->name }}
                             </p>
                             <p class="category">
-                                <i class="lni lni-tag"></i>In Stock: {{ $product->stock_amount }} {{ $product->unit->name }}
+                                <i class="lni lni-tag"></i>In Stock: {{ $product->stock_amount }}
+                                {{ $product->unit->name }}
                                 <input type="hidden" id="stock_amount" value="{{ $product->stock_amount }}">
                             </p>
                             <h5 class="mb-3">
-                                @if(isset($product->discount) && $product->discount > 0)
+                                @if (isset($product->discount) && $product->discount > 0)
                                     <span class="badge bg-warning">- {{ $product->discount }}%</span>
                                 @endif
                             </h5>
                             <h3 class="price">
-                                @if(isset($product->discount) && $product->discount > 0)
+                                @if (isset($product->discount) && $product->discount > 0)
                                     <span>৳. {{ $product->selling_price }}</span> &nbsp; &nbsp;
                                     @php
-                                        $discountedPrice = $product->selling_price - ($product->selling_price * $product->discount / 100);
+                                        $discountedPrice =
+                                            $product->selling_price -
+                                            ($product->selling_price * $product->discount) / 100;
                                     @endphp
                                     ৳. {{ $discountedPrice }}
                                 @else
@@ -63,15 +102,18 @@
                                 @endif
                             </h3>
                             <p class="info-text">{{ $product->short_description }}</p>
-                            @if($product->stock_amount > 0)
+                            @if ($product->stock_amount > 0)
                                 <form action="{{ route('add-to-cart', ['id' => $product->id]) }}" method="POST">
                                     @csrf
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="quantity-wrapper">
-                                                <button class="btn btn-outline-secondary decrement-btn" type="button">-</button>
-                                                <input type="number" name="qty" value="1" class="form-control quantity-input text-center" min="1" readonly>
-                                                <button class="btn btn-outline-secondary increment-btn" type="button">+</button> &nbsp; &nbsp;
+                                                <button class="btn btn-outline-secondary decrement-btn"
+                                                    type="button">-</button>
+                                                <input type="number" name="qty" value="1"
+                                                    class="form-control quantity-input text-center" min="1" readonly>
+                                                <button class="btn btn-outline-secondary increment-btn"
+                                                    type="button">+</button> &nbsp; &nbsp;
                                                 <span>{{ $product->unit->name }}</span>
                                             </div>
                                         </div>
@@ -99,13 +141,63 @@
             </div>
 
 
+            <div class="container eco-section">
+                <h2 class="mb-4">Eco Features</h2>
+                <div class="row justify-content-center">
+
+                    <div class="col-6 col-md-4 col-lg-2">
+                        <div class="eco-icon">
+                            <img src="{{ asset('website/assets/images/feature/biodegradable.png') }}" alt="Biodegradable">
+                            <h5>Biodegradable</h5>
+                        </div>
+                    </div>
+
+                    <div class="col-6 col-md-4 col-lg-2">
+                        <div class="eco-icon">
+                            <img src="{{ asset('website/assets/images/feature/recycle-bin.png') }}" alt="Recyclable">
+                            <h5>Recyclable</h5>
+                        </div>
+                    </div>
+
+                    <div class="col-6 col-md-4 col-lg-2">
+                        <div class="eco-icon faded">
+                            <img src="{{ asset('website/assets/images/feature/garbage.png') }}" alt="Low Waste">
+                            <h5>Low Waste</h5>
+                        </div>
+                    </div>
+
+                    <div class="col-6 col-md-4 col-lg-2">
+                        <div class="eco-icon">
+                            <img src="{{ asset('website/assets/images/feature/sustainable.png') }}" alt="Eco Packaging">
+                            <h5>Eco Packaging</h5>
+                        </div>
+                    </div>
+
+                    <div class="col-6 col-md-4 col-lg-2">
+                        <div class="eco-icon">
+                            <img src="{{ asset('website/assets/images/feature/recycle.png') }}" alt="Low Carbon">
+                            <h5>Low Carbon</h5>
+                        </div>
+                    </div>
+
+                    <div class="col-6 col-md-4 col-lg-2">
+                        <div class="eco-icon">
+                            <img src="{{ asset('website/assets/images/feature/renewable.png') }}" alt="Renewable">
+                            <h5>Renewable</h5>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
 
             <div class="product-details-info">
                 <div class="single-block">
                     <div class="row">
                         <div class="col-12">
                             <div class="info-body custom-responsive-margin">
-                                @if(isset($product->long_description))
+                                @if (isset($product->long_description))
                                     <p>{!! $product->long_description !!}</p>
                                 @else
                                     <p>No long description found!</p>
@@ -114,7 +206,7 @@
                         </div>
                     </div>
                 </div>
-                
+
 
                 <div class="row">
                     <div class="col-12">
@@ -126,7 +218,7 @@
                 <div class="row">
                     @forelse ($products as $product)
                         <div class="col-lg-3 col-md-6 col-12">
-    
+
                             <div class="single-product">
                                 <div class="product-image">
                                     <img src="{{ asset($product->image) }}" alt="#">
@@ -134,8 +226,9 @@
                                         <form action="{{ route('add-to-cart', ['id' => $product->id]) }}" method="POST">
                                             @csrf
                                             <input type="hidden" name="qty" class="form-control" value="1"
-                                                    min="1">
-                                            <button type="submit" class="btn" style="width: 100%;"><i class="lni lni-cart"></i> Add to Cart</button>
+                                                min="1">
+                                            <button type="submit" class="btn" style="width: 100%;"><i
+                                                    class="lni lni-cart"></i> Add to Cart</button>
                                         </form>
                                     </div>
                                 </div>
@@ -146,10 +239,12 @@
                                             href="{{ route('product-detail', ['id' => $product->id]) }}">{{ $product->name }}</a>
                                     </h4>
                                     <div class="price">
-                                        @if(isset($product->discount) && $product->discount > 0)
+                                        @if (isset($product->discount) && $product->discount > 0)
                                             <del>৳. {{ $product->selling_price }}</del> &nbsp; &nbsp;
                                             @php
-                                                $discountedPrice = $product->selling_price - ($product->selling_price * $product->discount / 100);
+                                                $discountedPrice =
+                                                    $product->selling_price -
+                                                    ($product->selling_price * $product->discount) / 100;
                                             @endphp
                                             ৳. {{ $discountedPrice }}
                                         @else
@@ -194,6 +289,4 @@
             });
         });
     </script>
-
-    
 @endpush
